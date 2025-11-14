@@ -1,0 +1,229 @@
+================================================================================
+백엔드 필수 구현 체크리스트 (최소화 버전)
+================================================================================
+
+이 문서는 프론트엔드가 정상 작동하기 위해 반드시 필요한 백엔드 기능만을 
+최소화하여 정리한 것입니다.
+
+================================================================================
+1. 프로젝트(Projects) API
+================================================================================
+
+[ ] GET /api/projects
+    - 프로젝트 목록 조회
+    - 쿼리 파라미터: category (선택, 'Web', 'Mobile', 'Automation')
+    - 응답: 프로젝트 목록 배열
+    - 필수 필드:
+      * id (int)
+      * title (string)
+      * category (string)
+      * thumbnail (string, URL)
+      * summary (string)
+      * tags (array of string)
+      * period (string, 예: '2024.01 - 2024.03')
+      * githubUrl (string, URL, 선택)
+      * demoUrl (string, URL, 선택)
+      * gradient (string, 예: 'from-blue-400 to-blue-600')
+
+[ ] GET /api/projects/{id}
+    - 프로젝트 상세 조회
+    - 응답: 프로젝트 상세 객체
+    - 필수 필드:
+      * 위의 모든 필드 +
+      * overview (string)
+      * challenges (array of object: {title, description})
+      * solutions (array of string)
+      * learnings (array of string)
+      * results (array of string)
+
+데이터베이스:
+[ ] projects 테이블 생성
+    - id (PK, auto increment)
+    - title (string, required)
+    - category (string, required)
+    - thumbnail (string, URL)
+    - summary (text)
+    - tags (JSON array 또는 별도 테이블)
+    - period (string)
+    - github_url (string, nullable)
+    - demo_url (string, nullable)
+    - gradient (string)
+    - overview (text, nullable)
+    - challenges (JSON, nullable)
+    - solutions (JSON array, nullable)
+    - learnings (JSON array, nullable)
+    - results (JSON array, nullable)
+    - created_at (datetime)
+    - updated_at (datetime)
+
+================================================================================
+2. 강의(Courses) API
+================================================================================
+
+[ ] GET /api/courses
+    - 강의 목록 조회
+    - 응답: 강의 목록 배열
+    - 필수 필드:
+      * id (int)
+      * type (string, 'video' 또는 'ebook')
+      * title (string)
+      * description (string)
+      * thumbnail (string, URL)
+      * price (int)
+      * duration (string, type이 'video'인 경우, 예: '12시간 30분')
+      * pages (int, type이 'ebook'인 경우)
+      * chapters (int, type이 'video'인 경우)
+      * rating (float)
+      * students (int)
+      * level (string, '초급', '중급', '고급')
+      * isPurchased (boolean, 인증 필요 시)
+
+[ ] GET /api/courses/{id}
+    - 강의 상세 조회
+    - 응답: 강의 상세 객체
+    - 필수 필드:
+      * 위의 모든 필드 +
+      * reviews (int)
+      * instructor (object: {name, bio})
+      * whatYouLearn (array of string)
+      * curriculum (array of object: {title, lessons: [{title, duration, isFree}]})
+      * requirements (array of string)
+
+데이터베이스:
+[ ] courses 테이블 생성
+    - id (PK, auto increment)
+    - type (string, 'video' 또는 'ebook')
+    - title (string, required)
+    - description (text)
+    - thumbnail (string, URL)
+    - price (int)
+    - duration (string, nullable)
+    - pages (int, nullable)
+    - chapters (int, nullable)
+    - rating (float, default 0.0)
+    - reviews (int, default 0)
+    - students (int, default 0)
+    - level (string)
+    - instructor_name (string)
+    - instructor_bio (string)
+    - what_you_learn (JSON array)
+    - curriculum (JSON)
+    - requirements (JSON array)
+    - created_at (datetime)
+    - updated_at (datetime)
+
+참고: 현재 CoursesPage에 Coming Soon 오버레이가 있지만, 
+      백엔드 API는 미리 구현해두는 것을 권장합니다.
+
+================================================================================
+3. 서비스 문의(Inquiries) API
+================================================================================
+
+[ ] POST /api/inquiries
+    - 서비스 문의 제출
+    - 요청 본문:
+      * name (string, required)
+      * email (string, required)
+      * phone (string, required)
+      * company (string, optional)
+      * message (string, optional)
+      * serviceType (string, optional, 'app', 'web', 'program')
+      * selectedFeatures (array of string, optional)
+      * additionalFeatures (string, optional)
+      * estimatedPrice (int, optional)
+    - 응답: 성공 메시지 및 생성된 inquiry id
+
+데이터베이스:
+[ ] inquiries 테이블 생성
+    - id (PK, auto increment)
+    - name (string, required)
+    - email (string, required)
+    - phone (string, required)
+    - company (string, nullable)
+    - message (text, nullable)
+    - service_type (string, nullable)
+    - selected_features (JSON array, nullable)
+    - additional_features (text, nullable)
+    - estimated_price (int, nullable)
+    - status (string, default 'pending', 'pending', 'contacted', 'completed')
+    - created_at (datetime)
+    - updated_at (datetime)
+
+================================================================================
+4. 기본 설정
+================================================================================
+
+[ ] FastAPI 앱 초기 설정 (main.py)
+    - CORS 설정 (프론트엔드 도메인 허용)
+    - 라우터 등록
+    - 기본 에러 핸들링
+
+[ ] 데이터베이스 연결 설정
+    - SQLAlchemy 또는 ORM 설정
+    - 데이터베이스 마이그레이션 설정
+
+[ ] 환경 변수 설정 (.env)
+    - 데이터베이스 URL
+    - CORS 허용 도메인
+    - 기타 필요한 설정
+
+================================================================================
+5. 선택 사항 (최소화를 위해 제외 가능)
+================================================================================
+
+다음 기능들은 프론트엔드가 현재 Mock 데이터로 작동하므로 
+필수는 아니지만, 향후 확장을 위해 고려할 수 있습니다:
+
+[ ] 인증/인가 시스템 (JWT)
+    - 현재 프론트엔드에서 isPurchased 체크는 Mock 데이터
+    - 실제 구매 확인이 필요하면 구현 필요
+
+[ ] 파일 업로드 API
+    - 프로젝트 썸네일, 강의 썸네일 업로드
+    - 현재는 외부 URL 사용 중
+
+[ ] 관리자 API
+    - 프로젝트/강의 CRUD
+    - 문의 내역 조회/관리
+    - 현재는 직접 DB 조작 필요
+
+[ ] 통계 API
+    - 프로젝트 조회수
+    - 강의 수강생 수 등
+    - 현재는 정적 데이터
+
+================================================================================
+구현 우선순위
+================================================================================
+
+1단계: 기본 설정 + 프로젝트 API
+   - FastAPI 앱 설정
+   - 데이터베이스 연결
+   - GET /api/projects
+   - GET /api/projects/{id}
+
+2단계: 강의 API
+   - GET /api/courses
+   - GET /api/courses/{id}
+
+3단계: 문의 API
+   - POST /api/inquiries
+
+각 단계마다 프론트엔드와 연동 테스트를 진행합니다.
+
+================================================================================
+주의사항
+================================================================================
+
+- 프론트엔드는 현재 Mock 데이터로 작동 중이므로, 
+  백엔드 구현과 병렬로 진행 가능합니다.
+
+- 각 API는 프론트엔드에서 사용하는 필드명과 정확히 일치해야 합니다.
+  (예: isPurchased, githubUrl, demoUrl 등 camelCase)
+
+- CORS 설정을 반드시 확인하여 프론트엔드에서 API 호출이 가능하도록 해야 합니다.
+
+- 데이터베이스 스키마는 프론트엔드의 Mock 데이터 구조를 참고하여 설계합니다.
+
+================================================================================
+
