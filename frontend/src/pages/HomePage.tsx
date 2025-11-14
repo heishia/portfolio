@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView } from "motion/react";
 import {
@@ -8,7 +9,7 @@ import {
   Check,
 } from "lucide-react";
 import { useRef } from "react";
-import memeImage from "figma:asset/7c4736a7b96c7c2fd1894318650492550baad73d.png";
+import memeImage from "../assets/7c4736a7b96c7c2fd1894318650492550baad73d.png";
 
 export function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -340,7 +341,7 @@ export function HomePage() {
                     바이브 코딩 개발자
                   </span>
                   입니다.
-                  <p></p>
+                  <br />
                   물론 바이브 코딩이 만능은 아닙니다.
                   <br />
                   단,{" "}

@@ -1,8 +1,10 @@
+import React from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Calendar, Tag, ExternalLink, Github, CheckCircle } from 'lucide-react';
 import { fetchProjectById, ProjectDetail } from '../utils/api';
+import { parseMarkdown } from '../utils/markdown';
 
 export function ProjectDetailPage() {
   const { id } = useParams();
@@ -26,6 +28,8 @@ export function ProjectDetailPage() {
           throw new Error('프로젝트 ID가 없습니다.');
         }
         const data = await fetchProjectById(id);
+        // Data already contains actual newline characters, no need to replace
+        // whitespace-pre-wrap CSS will handle the rendering
         setProject(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : '프로젝트를 불러오는데 실패했습니다.');
@@ -81,55 +85,61 @@ export function ProjectDetailPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="relative h-[60vh] overflow-hidden">
-        {project.app_icon || project.thumbnail_url ? (
-          <img
-            src={project.app_icon || project.thumbnail_url || ''}
-            alt={project.title}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-            <span className="text-gray-500 text-lg">이미지 없음</span>
-          </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        
-        <div className="absolute inset-0 flex items-end">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 pb-16 w-full">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <Link
-                to="/projects"
-                className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors"
-              >
-                <ArrowLeft size={20} />
-                프로젝트 목록으로
-              </Link>
-              
-              <div className="flex items-center gap-3 mb-4">
-                <span className="px-4 py-2 bg-blue-600 text-white text-sm">
-                  {project.project_type}
-                </span>
-                <div className="flex items-center gap-2 text-white/80 text-sm">
-                  <Calendar size={16} />
-                  <span>
-                    {new Date(project.start_date).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit' })}
-                    {project.is_ongoing ? ' - 진행중' : project.end_date ? ` - ${new Date(project.end_date).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit' })}` : ''}
-                  </span>
-                </div>
+      <section className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          {/* App Icon - Canvas Style */}
+          <div className="flex items-center justify-center mb-12">
+            {project.app_icon ? (
+              <div className="w-48 h-48 bg-white rounded-3xl shadow-2xl flex items-center justify-center p-4">
+                <img
+                  src={project.app_icon}
+                  alt={project.title}
+                  className="w-full h-full object-contain"
+                />
               </div>
-              
-              <h1 className="text-white mb-2">{project.title}</h1>
-              {project.subtitle && (
-                <p className="text-white/70 text-lg mb-4">{project.subtitle}</p>
-              )}
-              <p className="text-white/80 text-xl max-w-3xl">{project.description}</p>
-            </motion.div>
+            ) : (
+              <div className="w-48 h-48 bg-gray-100 rounded-3xl flex items-center justify-center">
+                <span className="text-gray-400 text-sm">아이콘 없음</span>
+              </div>
+            )}
           </div>
+          
+          {/* Project Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+            >
+              <ArrowLeft size={20} />
+              프로젝트 목록으로
+            </Link>
+            
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="px-4 py-2 bg-blue-600 text-white text-sm">
+                {project.project_type}
+              </span>
+              <div className="flex items-center gap-2 text-gray-600 text-sm">
+                <Calendar size={16} />
+                <span>
+                  {new Date(project.start_date).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit' })}
+                  {project.is_ongoing ? ' - 진행중' : project.end_date ? ` - ${new Date(project.end_date).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit' })}` : ''}
+                </span>
+              </div>
+            </div>
+            
+            <h1 className="text-gray-900 mb-2">{project.title}</h1>
+            {project.subtitle && (
+              <p className="text-gray-600 text-lg mb-4">{project.subtitle}</p>
+            )}
+            <p className="text-gray-700 text-xl max-w-3xl mx-auto leading-relaxed break-words">
+              {parseMarkdown(project.description || '')}
+            </p>
+          </motion.div>
         </div>
       </section>
 
@@ -239,8 +249,8 @@ export function ProjectDetailPage() {
               className="mb-12"
             >
               <h2 className="mb-6">프로젝트 상세 설명</h2>
-              <div className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
-                {project.detailed_description}
+              <div className="text-gray-700 text-lg leading-relaxed break-words">
+                {project.detailed_description ? parseMarkdown(project.detailed_description) : null}
               </div>
             </motion.div>
           )}
@@ -261,9 +271,13 @@ export function ProjectDetailPage() {
                     className="p-6 bg-gray-50 border-l-4 border-blue-600"
                   >
                     <h4 className="mb-2 text-lg font-semibold">{feature.name}</h4>
-                    <p className="text-gray-700 mb-2">{feature.description}</p>
+                    <p className="text-gray-700 mb-2 leading-relaxed break-words">
+                      {parseMarkdown(feature.description || '')}
+                    </p>
                     {feature.details && (
-                      <p className="text-gray-600 text-sm">{feature.details}</p>
+                      <p className="text-gray-600 text-sm leading-relaxed break-words">
+                        {parseMarkdown(feature.details)}
+                      </p>
                     )}
                   </div>
                 ))}
@@ -280,8 +294,8 @@ export function ProjectDetailPage() {
               className="mb-12"
             >
               <h2 className="mb-6">주요 도전과제</h2>
-              <div className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {project.challenges}
+              <div className="text-gray-700 leading-relaxed break-words">
+                {parseMarkdown(project.challenges || '')}
               </div>
             </motion.div>
           )}
@@ -295,8 +309,8 @@ export function ProjectDetailPage() {
               className="mb-12"
             >
               <h2 className="mb-6">주요 성과</h2>
-              <div className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {project.achievements}
+              <div className="text-gray-700 leading-relaxed break-words">
+                {parseMarkdown(project.achievements || '')}
               </div>
             </motion.div>
           )}
@@ -314,16 +328,20 @@ export function ProjectDetailPage() {
                 {project.code_snippets.map((snippet, index) => (
                   <div
                     key={index}
-                    className="p-6 bg-gray-900 text-gray-100 rounded-lg overflow-x-auto"
+                    className="p-6 bg-gray-900 rounded-lg overflow-x-auto border border-gray-700"
                   >
-                    <div className="mb-3">
-                      <h4 className="text-white font-semibold mb-1">{snippet.title}</h4>
-                      <p className="text-gray-400 text-sm mb-2">{snippet.description}</p>
-                      <p className="text-gray-500 text-xs">{snippet.file_path}</p>
+                    <div className="mb-4">
+                      <h4 className="text-white font-semibold mb-2 text-lg">{snippet.title}</h4>
+                      <p className="text-gray-300 text-sm mb-2">{snippet.description}</p>
+                      <p className="text-gray-400 text-xs font-mono">{snippet.file_path}</p>
                     </div>
-                    <pre className="text-sm">
-                      <code>{snippet.code}</code>
-                    </pre>
+                    <div className="bg-gray-800 rounded p-4 overflow-x-auto">
+                      <pre className="text-sm font-mono whitespace-pre-wrap m-0">
+                        <code className="text-gray-100" style={{ color: '#e5e7eb', display: 'block' }}>
+                          {snippet.code}
+                        </code>
+                      </pre>
+                    </div>
                   </div>
                 ))}
               </div>

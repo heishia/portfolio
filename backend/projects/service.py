@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import List, Optional
+from uuid import UUID
 from core.exceptions import NotFoundException
 from core.models import Project
 from projects.schemas import ProjectListResponse, ProjectDetailResponse
@@ -16,7 +17,16 @@ def get_projects(
     
     projects = query.order_by(Project.priority.desc(), Project.created_at.desc()).all()
     
-    return [ProjectListResponse.model_validate(project) for project in projects]
+    # Convert UUID to string if needed
+    result = []
+    for project in projects:
+        project_dict = {
+            k: str(v) if k == 'id' and isinstance(v, UUID) else v
+            for k, v in project.__dict__.items() if not k.startswith('_')
+        }
+        result.append(ProjectListResponse.model_validate(project_dict))
+    
+    return result
 
 
 def get_project_by_id(
@@ -28,5 +38,10 @@ def get_project_by_id(
     if not project:
         raise NotFoundException("Project", project_id)
     
-    return ProjectDetailResponse.model_validate(project)
+    # Convert UUID to string if needed
+    project_dict = {
+        k: str(v) if k == 'id' and isinstance(v, UUID) else v
+        for k, v in project.__dict__.items() if not k.startswith('_')
+    }
+    return ProjectDetailResponse.model_validate(project_dict)
 

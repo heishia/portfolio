@@ -35,6 +35,7 @@ export function ProjectsPage() {
         setError(null);
         const projectType = selectedType === '전체' ? undefined : selectedType.toLowerCase();
         const data = await fetchProjects(projectType);
+        // Data already contains actual newline characters, whitespace-pre-wrap CSS will handle it
         setProjects(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : '프로젝트를 불러오는데 실패했습니다.');
@@ -138,12 +139,14 @@ export function ProjectsPage() {
                 <Link to={`/projects/${project.id}`}>
                     {/* Image */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                    {project.app_icon || project.thumbnail_url ? (
-                      <img
-                        src={project.app_icon || project.thumbnail_url || ''}
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
+                    {project.app_icon ? (
+                      <div className="w-full h-full bg-white flex items-center justify-center p-8">
+                        <img
+                          src={project.app_icon}
+                          alt={project.title}
+                          className="w-32 h-32 object-contain"
+                        />
+                      </div>
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                         <span className="text-gray-500">이미지 없음</span>
@@ -203,7 +206,7 @@ export function ProjectsPage() {
                       <p className="text-sm text-gray-500 mb-4">{project.subtitle}</p>
                     )}
 
-                    <p className="text-gray-600 mb-6 line-clamp-2 leading-relaxed">
+                    <p className="text-gray-600 mb-6 line-clamp-2 leading-relaxed whitespace-pre-wrap break-words">
                       {project.description}
                     </p>
 

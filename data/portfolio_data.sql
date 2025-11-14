@@ -121,7 +121,7 @@ INSERT INTO projects (
             "details": "bcrypt 비밀번호 해싱, JWT 토큰 발급/검증, 토큰 기반 API 인증, WebSocket 인증을 지원합니다."
         }
     ]'::jsonb,
-    '[
+    $code_snippets$[
         {
             "title": "WebSocket 실시간 채팅 연결 관리",
             "description": "채널별 WebSocket 연결을 관리하고 메시지를 브로드캐스트하는 핵심 로직",
@@ -157,7 +157,7 @@ INSERT INTO projects (
             "file_path": "backend/app/core/supabase_client.py",
             "code": "from supabase import create_client, Client\nfrom .config import settings\n\nsupabase: Client = create_client(\n    settings.SUPABASE_URL,\n    settings.SUPABASE_SERVICE_KEY\n)\n\n# Storage 버킷\nPROFILE_IMAGES_BUCKET = 'profile-images'\nCONTENT_BUCKET = 'content'"
         }
-    ]'::jsonb,
+    ]$code_snippets$::jsonb,
     'https://github.com/heishia/guild',
     NULL,
     NULL,

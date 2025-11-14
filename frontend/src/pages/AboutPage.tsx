@@ -220,12 +220,14 @@ export function AboutPage() {
                     >
                       {/* App Icon - iOS Style */}
                       <div className="relative w-full h-full overflow-hidden rounded-[22.5%] shadow-lg">
-                        {project.app_icon || project.thumbnail_url ? (
-                          <img
-                            src={project.app_icon || project.thumbnail_url || ''}
-                            alt={project.title}
-                            className="w-full h-full object-cover"
-                          />
+                        {project.app_icon ? (
+                          <div className="w-full h-full bg-white flex items-center justify-center p-4">
+                            <img
+                              src={project.app_icon}
+                              alt={project.title}
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
                         ) : (
                           <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                             <span className="text-gray-500 text-xs">이미지 없음</span>

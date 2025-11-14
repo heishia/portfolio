@@ -29,7 +29,6 @@ class ProjectBase(BaseModel):
     description: str
     project_type: str  # web, mobile, desktop, fullstack, backend, frontend
     app_icon: Optional[str] = None
-    thumbnail_url: Optional[str] = None
     start_date: date
     end_date: Optional[date] = None
     is_ongoing: bool = False
@@ -62,7 +61,6 @@ class ProjectListResponse(BaseModel):
     description: str
     project_type: str
     app_icon: Optional[str] = None
-    thumbnail_url: Optional[str] = None
     start_date: date
     end_date: Optional[date] = None
     is_ongoing: bool

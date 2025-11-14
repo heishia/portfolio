@@ -34,7 +34,6 @@ export interface Project {
   tags: string[];
   github_url: string | null;
   demo_url: string | null;
-  thumbnail_url: string | null;
   status: 'planning' | 'development' | 'completed' | 'maintenance';
   priority: number;
 }

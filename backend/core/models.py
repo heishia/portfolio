@@ -12,7 +12,6 @@ class Project(Base):
     description = Column(Text, nullable=False)
     project_type = Column(String(50), nullable=False)  # web, mobile, desktop, fullstack, backend, frontend
     app_icon = Column(String(500), nullable=True)
-    thumbnail_url = Column(Text, nullable=True)
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=True)
     is_ongoing = Column(Boolean, default=False)
