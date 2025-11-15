@@ -1,4 +1,28 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+// 프로덕션 환경에서는 Railway URL 사용, 개발 환경에서는 환경 변수 또는 localhost
+const getApiBaseUrl = () => {
+  // 프로덕션 환경 체크
+  if (typeof window !== 'undefined' && window.location.hostname === 'www.kimppop.site') {
+    return 'https://web-production-d929.up.railway.app';
+  }
+  if (typeof window !== 'undefined' && window.location.hostname === 'kimppop.site') {
+    return 'https://web-production-d929.up.railway.app';
+  }
+  // 환경 변수가 있으면 사용
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  // 기본값 (로컬 개발)
+  return 'http://localhost:8000';
+};
+
+const API_BASE_URL = getApiBaseUrl();
+
+// 디버깅: 환경 변수 확인
+if (typeof window !== 'undefined') {
+  console.log('🔍 API_BASE_URL:', API_BASE_URL);
+  console.log('🔍 Hostname:', window.location.hostname);
+  console.log('🔍 VITE_API_BASE_URL env:', import.meta.env.VITE_API_BASE_URL);
+}
 
 export interface Technology {
   category: string;
