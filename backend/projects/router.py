@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from typing import Optional, List
 from core.database import get_db
-from projects.service import get_projects, get_project_by_id
-from projects.schemas import ProjectListResponse, ProjectDetailResponse
+from projects.service import get_projects, get_project_by_id, create_project
+from projects.schemas import ProjectListResponse, ProjectDetailResponse, ProjectCreate
 
 router = APIRouter(prefix="/projects", tags=["projects"])
 
@@ -22,4 +22,12 @@ def get_project(
     db: Session = Depends(get_db)
 ) -> ProjectDetailResponse:
     return get_project_by_id(db, project_id)
+
+
+@router.post("", response_model=ProjectDetailResponse, status_code=201)
+def create_new_project(
+    project_data: ProjectCreate,
+    db: Session = Depends(get_db)
+) -> ProjectDetailResponse:
+    return create_project(db, project_data)
 
