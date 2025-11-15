@@ -1,15 +1,12 @@
 // 프로덕션 환경에서는 Railway URL 사용, 개발 환경에서는 환경 변수 또는 localhost
 const getApiBaseUrl = () => {
-  // 프로덕션 환경 체크
-  if (typeof window !== 'undefined' && window.location.hostname === 'www.kimppop.site') {
-    return 'https://web-production-d929.up.railway.app';
-  }
-  if (typeof window !== 'undefined' && window.location.hostname === 'kimppop.site') {
-    return 'https://web-production-d929.up.railway.app';
-  }
-  // 환경 변수가 있으면 사용
+  // 환경 변수가 있으면 우선 사용
   if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+    return import.meta.env.VITE_API_BASE_URL.replace(/\/$/, ''); // 마지막 슬래시 제거
+  }
+  // 프로덕션 환경 체크 (환경 변수가 없을 때만)
+  if (typeof window !== 'undefined' && (window.location.hostname === 'www.kimppop.site' || window.location.hostname === 'kimppop.site')) {
+    return 'https://web-production-c1e6f.up.railway.app';
   }
   // 기본값 (로컬 개발)
   return 'http://localhost:8000';
