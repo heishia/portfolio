@@ -440,10 +440,36 @@ export function ServicesPage() {
               >
                 <h2 className="text-center mb-4">추가로 구현하고 싶은 기능</h2>
                 <p className="text-center text-gray-600 mb-12">
-                  특별히 필요한 기능이 있다면 자유롭게 적어주세요
+                  그외에 필요한 기능
                 </p>
 
                 <div className="max-w-4xl mx-auto">
+                  {/* Difficulty-based pricing info */}
+                  <div className="mb-8 p-6 bg-blue-50 border-l-4 border-blue-600">
+                    <h4 className="mb-4 font-semibold">기능 구현 난이도별 가격 안내</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>기본</span>
+                        <span className="text-green-600 font-medium">무료</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Easy</span>
+                        <span className="font-medium">₩200,000</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Normal</span>
+                        <span className="font-medium">₩300,000</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Hard</span>
+                        <span className="font-medium">₩700,000</span>
+                      </div>
+                      <div className="mt-4 pt-4 border-t border-blue-200 text-gray-600">
+                        <p className="text-xs">※ 기본값은 미팅 후에 금액이 결정됩니다.</p>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Example suggestions */}
                   <div className="mb-8">
                     <p className="mb-4 text-sm text-gray-600">예시 (클릭하여 추가)</p>
