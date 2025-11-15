@@ -55,13 +55,23 @@ export function ProjectsPage() {
   
   // Helper function to format date period
   const formatPeriod = (startDate: string, endDate: string | null, isOngoing: boolean) => {
-    const start = new Date(startDate).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit' });
+    const start = new Date(startDate).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (endDate) {
+      const end = new Date(endDate);
+      end.setHours(0, 0, 0, 0);
+      // end_date가 오늘 이후이거나 같고 is_ongoing이 true면 진행중, 그렇지 않으면 종료일 표시
+      if (end >= today && isOngoing) {
+        return `${start} - 진행중`;
+      } else {
+        return `${start} - ${end.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })}`;
+      }
+    }
+    // end_date가 없고 is_ongoing이 true면 진행중
     if (isOngoing) {
       return `${start} - 진행중`;
-    }
-    if (endDate) {
-      const end = new Date(endDate).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit' });
-      return `${start} - ${end}`;
     }
     return start;
   };

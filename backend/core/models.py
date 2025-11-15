@@ -31,6 +31,7 @@ class Project(Base):
     tags = Column(JSON, nullable=True, default=[])
     status = Column(String(20), default='completed')  # planning, development, completed, maintenance
     priority = Column(Integer, default=0)
+    client = Column(String(200), nullable=True)  # 외주회사명
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 

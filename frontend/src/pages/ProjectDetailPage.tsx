@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import { ArrowLeft, Calendar, Tag, ExternalLink, Github, CheckCircle } from 'lucide-react';
 import { fetchProjectById, ProjectDetail } from '../utils/api';
 import { parseMarkdown } from '../utils/markdown';
+import { ProjectGallery } from '../components/ProjectGallery';
 
 export function ProjectDetailPage() {
   const { id } = useParams();
@@ -126,8 +127,27 @@ export function ProjectDetailPage() {
               <div className="flex items-center gap-2 text-gray-600 text-sm">
                 <Calendar size={16} />
                 <span>
-                  {new Date(project.start_date).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit' })}
-                  {project.is_ongoing ? ' - 진행중' : project.end_date ? ` - ${new Date(project.end_date).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit' })}` : ''}
+                  {(() => {
+                    const start = new Date(project.start_date).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    if (project.end_date) {
+                      const end = new Date(project.end_date);
+                      end.setHours(0, 0, 0, 0);
+                      // end_date가 오늘 이후이거나 같으면 진행중, 그렇지 않으면 종료일 표시
+                      if (end >= today && project.is_ongoing) {
+                        return `${start} - 진행중`;
+                      } else {
+                        return `${start} - ${end.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })}`;
+                      }
+                    }
+                    // end_date가 없고 is_ongoing이 true면 진행중
+                    if (project.is_ongoing) {
+                      return `${start} - 진행중`;
+                    }
+                    return start;
+                  })()}
                 </span>
               </div>
             </div>
@@ -139,6 +159,11 @@ export function ProjectDetailPage() {
             <p className="text-gray-700 text-xl max-w-3xl mx-auto leading-relaxed break-words">
               {parseMarkdown(project.description || '')}
             </p>
+            {project.client && (
+              <p className="text-gray-600 text-lg mt-4">
+                클라이언트: {project.client}
+              </p>
+            )}
           </motion.div>
         </div>
       </section>
@@ -238,6 +263,11 @@ export function ProjectDetailPage() {
                 ))}
               </div>
             </motion.div>
+          )}
+
+          {/* Project Gallery */}
+          {project.screenshots && project.screenshots.length > 0 && (
+            <ProjectGallery images={project.screenshots} />
           )}
 
           {/* Detailed Description */}

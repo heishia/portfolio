@@ -34,6 +34,10 @@ class Settings(BaseSettings):
     
     LOG_LEVEL: str = "INFO"
     
+    # Supabase Storage 설정
+    SUPABASE_URL: Optional[str] = None
+    SUPABASE_KEY: Optional[str] = None  # Service Role Key 또는 Anon Key
+    
     class Config:
         env_file = [".env", "../.env"]
         case_sensitive = False

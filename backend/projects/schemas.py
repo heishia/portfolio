@@ -48,6 +48,7 @@ class ProjectBase(BaseModel):
     tags: List[str] = []
     status: str = 'completed'  # planning, development, completed, maintenance
     priority: int = 0
+    client: Optional[str] = None  # 외주회사명
 
 
 class ProjectCreate(ProjectBase):

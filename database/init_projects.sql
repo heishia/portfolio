@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS projects (
     tags JSON DEFAULT '[]',
     status VARCHAR(20) DEFAULT 'completed' CHECK (status IN ('planning', 'development', 'completed', 'maintenance')),
     priority INTEGER DEFAULT 0,  -- 표시 순서
+    client VARCHAR(200),  -- 외주회사명
     
     -- 타임스탬프
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

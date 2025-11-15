@@ -49,6 +49,7 @@ export interface ProjectDetail extends Project {
   contributor_count: number;
   screenshots: string[];
   documentation_url: string | null;
+  client: string | null;
   created_at: string;
   updated_at: string | null;
 }
