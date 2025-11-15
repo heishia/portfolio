@@ -25,12 +25,24 @@ class Settings(BaseSettings):
     use_pooler: bool = False
     pooler_host: Optional[str] = None
     
+    # CORS 설정 - 환경 변수로도 설정 가능
+    FRONTEND_URL: Optional[str] = None  # 예: https://your-project.vercel.app
+    
     CORS_ORIGINS: List[str] = [
         "http://localhost:5173",
         "http://localhost:3000",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:3000",
+        "https://www.kimppop.site",
+        "https://kimppop.site",
     ]
+    
+    def get_cors_origins(self) -> List[str]:
+        """CORS origins를 동적으로 구성"""
+        origins = self.CORS_ORIGINS.copy()
+        if self.FRONTEND_URL:
+            origins.append(self.FRONTEND_URL)
+        return origins
     
     LOG_LEVEL: str = "INFO"
     
