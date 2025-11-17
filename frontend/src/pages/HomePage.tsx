@@ -111,11 +111,14 @@ export function HomePage() {
             <div className="flex justify-center items-center py-0">
               {/* Motion Graphic: One circle splits into three */}
               <div
-                className="relative w-full max-w-4xl h-[500px] xs:h-[200px] flex items-center justify-center"
+                className="relative w-full max-w-4xl h-[500px] flex items-center justify-center overflow-hidden"
+                style={{
+                  height: isSmallScreen ? '300px' : '500px'
+                }}
                 ref={circleRef}
               >
                 {/* Label - 클라이언트/개발자 */}
-                <motion.div className="absolute -top-4 xs:-top-3 left-1/2 -translate-x-1/2 text-center">
+                <motion.div className="absolute top-0 xs:top-0 left-1/2 -translate-x-1/2 -translate-y-full xs:-translate-y-[calc(100%+8px)] text-center z-10">
                   <motion.div
                     animate={{
                       opacity: isExpanded ? 0 : 1,
@@ -158,12 +161,13 @@ export function HomePage() {
                     scale: isExpanded ? [1, 1.2, 0] : 1,
                     opacity: isExpanded ? [1, 1, 0] : 1,
                     rotate: isExpanded ? [0, 5, -5, 0] : 0,
+                    y: isSmallScreen ? 16 : -64,
                   }}
                   transition={{
                     duration: 0.6,
                     ease: "easeInOut",
                   }}
-                  className="absolute cursor-pointer -translate-y-16 xs:-translate-y-8"
+                  className="absolute cursor-pointer -translate-y-64"
                 >
                   <div className="relative">
                     {/* Quote below circle */}
@@ -197,7 +201,7 @@ export function HomePage() {
                 <motion.div
                   animate={{
                     x: isExpanded ? 0 : 0,
-                    y: isExpanded ? (isSmallScreen ? -25 : -100) : 0,
+                    y: isExpanded ? (isSmallScreen ? -35 : -100) : 0,
                     scale: isExpanded ? [0, 0.5, 1] : 0,
                     opacity: isExpanded ? [0, 0.7, 1] : 0,
                   }}
@@ -237,7 +241,7 @@ export function HomePage() {
                 {/* Bottom Left: 변수 */}
                 <motion.div
                   animate={{
-                    x: isExpanded ? (isSmallScreen ? -32 : -90) : 0,
+                    x: isExpanded ? (isSmallScreen ? -40 : -90) : 0,
                     y: isExpanded ? (isSmallScreen ? 30 : 50) : 0,
                     scale: isExpanded ? [0, 0.5, 1] : 0,
                     opacity: isExpanded ? [0, 0.7, 1] : 0,
@@ -278,7 +282,7 @@ export function HomePage() {
                 {/* Bottom Right: 버그 */}
                 <motion.div
                   animate={{
-                    x: isExpanded ? (isSmallScreen ? 32 : 90) : 0,
+                    x: isExpanded ? (isSmallScreen ? 40 : 90) : 0,
                     y: isExpanded ? (isSmallScreen ? 30 : 50) : 0,
                     scale: isExpanded ? [0, 0.5, 1] : 0,
                     opacity: isExpanded ? [0, 0.7, 1] : 0,
@@ -319,29 +323,39 @@ export function HomePage() {
             </div>
 
             {/* Example List for Mobile */}
-            <div className="mt-8 xs:mt-8 hidden xs:block">
-              <div className="space-y-3">
-                <h3 className="text-gray-900 text-lg font-semibold mb-4 text-center">
-                  예시 상황
-                </h3>
-                <div className="space-y-2 text-center">
-                  <p className="text-gray-700 text-sm">
-                    <span className="font-semibold">예외:</span> 카드사 서버가 응답하지 않으면?
-                  </p>
-                  <p className="text-gray-700 text-sm">
-                    <span className="font-semibold">변수:</span> 어떤 결제 방식을 지원하지?
-                  </p>
-                  <p className="text-gray-700 text-sm">
-                    <span className="font-semibold">버그:</span> 모바일에서는 결제창이 안 뜨네?
-                  </p>
-                </div>
+            <div className="mt-8 hidden xs:block" style={{ transform: 'translateY(-50px)' }}>
+              <div className="space-y-2 text-center">
+                <p className="text-gray-700 text-sm">
+                  <span className="font-semibold">예외:</span> 카드사 서버가 응답하지 않으면?
+                </p>
+                <p className="text-gray-700 text-sm">
+                  <span className="font-semibold">변수:</span> 어떤 결제 방식을 지원하지?
+                </p>
+                <p className="text-gray-700 text-sm">
+                  <span className="font-semibold">버그:</span> 모바일에서는 결제창이 안 뜨네?
+                </p>
               </div>
             </div>
 
-            {/* Conclusion */}
-            <div className="-mt-12 xs:-mt-8 text-center">
-              <div className="py-2 xs:py-1 px-8 xs:px-4">
-                <p className="text-gray-900 text-[24px] xs:text-lg">
+            {/* Conclusion - Desktop Only */}
+            <div className="-mt-12 text-center xs:hidden">
+              <div className="py-2 px-8">
+                <p className="text-gray-900 text-[24px]">
+                  불확실성을 제거해야하기 때문에
+                  <br />
+                  대부분의 개발자들은 일단{" "}
+                  <span className="text-blue-600">
+                    "안된다"
+                  </span>
+                  고 말합니다.
+                </p>
+              </div>
+            </div>
+
+            {/* Conclusion - Mobile Only */}
+            <div className="mt-8 hidden xs:block text-center">
+              <div className="py-2 px-4">
+                <p className="text-gray-900 text-lg">
                   불확실성을 제거해야하기 때문에
                   <br />
                   대부분의 개발자들은 일단{" "}
