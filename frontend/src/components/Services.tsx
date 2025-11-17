@@ -65,7 +65,7 @@ export function Services() {
   };
 
   return (
-    <div className="py-24 px-6 bg-white">
+    <div className="py-24 xs:py-16 px-6 xs:px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -83,7 +83,7 @@ export function Services() {
         </motion.div>
 
         {/* Service Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-4 xs:gap-3 mb-12 xs:mb-8">
           {services.map((service) => {
             const Icon = service.icon;
             return (
@@ -93,13 +93,13 @@ export function Services() {
                   setSelectedService(service.id);
                   setSelectedPackage(0);
                 }}
-                className={`flex items-center gap-3 px-6 py-4 border-2 transition-all ${
+                className={`flex items-center gap-3 xs:gap-2 px-6 xs:px-4 py-4 xs:py-3.5 border-2 transition-all xs:text-sm min-h-12 xs:min-h-14 ${
                   selectedService === service.id
                     ? 'bg-black text-white border-black'
                     : 'border-black text-black hover:bg-blue-600 hover:text-white hover:border-blue-600'
                 }`}
               >
-                <Icon size={24} />
+                <Icon size={24} className="xs:w-5 xs:h-5" />
                 <span>{service.title}</span>
               </button>
             );
@@ -118,7 +118,7 @@ export function Services() {
         </motion.div>
 
         {/* Package Options */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 xs:gap-4 mb-12 xs:mb-8">
           {currentService.packages.map((pkg, index) => (
             <motion.div
               key={pkg.name}
@@ -126,29 +126,29 @@ export function Services() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
               onClick={() => setSelectedPackage(index)}
-              className={`cursor-pointer p-8 border-2 transition-all ${
+              className={`cursor-pointer p-8 xs:p-4 border-2 transition-all ${
                 selectedPackage === index
                   ? 'border-blue-600 bg-blue-50'
                   : 'border-gray-200 hover:border-blue-600'
               }`}
             >
-              <h3 className="mb-4">{pkg.name}</h3>
-              <div className="mb-6">
+              <h3 className="mb-4 xs:mb-3 xs:text-base">{pkg.name}</h3>
+              <div className="mb-6 xs:mb-4">
                 {pkg.price > 0 ? (
                   <div>
-                    <span className="text-blue-600">
+                    <span className="text-blue-600 xs:text-base">
                       ₩{pkg.price.toLocaleString()}
                     </span>
-                    <span className="text-gray-500 text-sm ml-2">부터</span>
+                    <span className="text-gray-500 text-sm xs:text-xs ml-2">부터</span>
                   </div>
                 ) : (
-                  <span className="text-blue-600">견적 문의</span>
+                  <span className="text-blue-600 xs:text-base">견적 문의</span>
                 )}
               </div>
-              <ul className="space-y-3">
+              <ul className="space-y-3 xs:space-y-2">
                 {pkg.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-sm text-gray-600">
-                    <Check size={18} className="text-blue-600 flex-shrink-0 mt-0.5" />
+                  <li key={feature} className="flex items-start gap-2 text-sm xs:text-xs text-gray-600">
+                    <Check size={18} className="xs:w-4 xs:h-4 text-blue-600 flex-shrink-0 mt-0.5" />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -162,26 +162,26 @@ export function Services() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="bg-gray-50 p-8 md:p-12"
+          className="bg-gray-50 p-8 xs:p-4 md:p-12"
         >
           <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 xs:gap-4">
               <div>
-                <h4 className="mb-2">선택한 패키지</h4>
-                <p className="text-gray-600">
+                <h4 className="mb-2 xs:mb-1 xs:text-base">선택한 패키지</h4>
+                <p className="text-gray-600 xs:text-sm">
                   {currentService.title} - {currentPackage.name}
                 </p>
                 {currentPackage.price > 0 && (
-                  <p className="text-blue-600 mt-2">
+                  <p className="text-blue-600 mt-2 xs:mt-1 xs:text-base">
                     예상 금액: ₩{currentPackage.price.toLocaleString()}~
                   </p>
                 )}
               </div>
               <Button
                 onClick={() => setShowContactForm(true)}
-                className="bg-black text-white hover:bg-blue-600 px-8 py-6"
+                className="bg-black text-white hover:bg-blue-600 px-8 xs:px-6 py-6 xs:py-4 xs:text-sm min-h-12 xs:min-h-14"
               >
-                <Send size={20} className="mr-2" />
+                <Send size={20} className="xs:w-5 xs:h-5 mr-2" />
                 프로젝트 의뢰하기
               </Button>
             </div>
@@ -190,14 +190,14 @@ export function Services() {
 
         {/* Contact Form Modal */}
         {showContactForm && (
-          <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-6 xs:p-4">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="bg-white p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white p-8 xs:p-4 max-w-2xl w-full xs:w-[calc(100%-1rem)] max-h-[90vh] xs:max-h-[95vh] overflow-y-auto"
             >
-              <h3 className="mb-6">프로젝트 의뢰하기</h3>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <h3 className="mb-6 xs:mb-4 xs:text-xl">프로젝트 의뢰하기</h3>
+              <form onSubmit={handleSubmit} className="space-y-6 xs:space-y-4">
                 <div>
                   <Label htmlFor="name">이름</Label>
                   <Input
@@ -242,20 +242,20 @@ export function Services() {
                     placeholder="프로젝트에 대해 자세히 설명해주세요..."
                   />
                 </div>
-                <div className="bg-gray-50 p-4 text-sm text-gray-600">
+                <div className="bg-gray-50 p-4 xs:p-3 text-sm xs:text-xs text-gray-600">
                   <p>선택한 서비스: {currentService.title} - {currentPackage.name}</p>
                   {currentPackage.price > 0 && (
                     <p>예상 금액: ₩{currentPackage.price.toLocaleString()}~</p>
                   )}
                 </div>
-                <div className="flex gap-4">
-                  <Button type="submit" className="flex-1 bg-black text-white hover:bg-blue-600">
+                <div className="flex gap-4 xs:gap-3 xs:flex-col">
+                  <Button type="submit" className="flex-1 bg-black text-white hover:bg-blue-600 xs:text-sm min-h-12 xs:min-h-14">
                     문의 보내기
                   </Button>
                   <Button
                     type="button"
                     onClick={() => setShowContactForm(false)}
-                    className="flex-1 bg-gray-200 text-black hover:bg-gray-300"
+                    className="flex-1 bg-gray-200 text-black hover:bg-gray-300 xs:text-sm min-h-12 xs:min-h-14"
                   >
                     취소
                   </Button>

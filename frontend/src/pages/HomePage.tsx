@@ -8,21 +8,31 @@ import {
   Search,
   Check,
 } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import memeImage from "../assets/7c4736a7b96c7c2fd1894318650492550baad73d.png";
 
 export function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const isExpanded = useInView(circleRef, {
     once: false,
     amount: 0.5,
   });
 
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth <= 500);
+    };
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
   return (
     <div className="pt-20" ref={containerRef}>
       {/* Section 1 - Problem Hook */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen xs:min-h-0 flex items-center justify-center overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-white" />
@@ -38,24 +48,24 @@ export function HomePage() {
           />
         </div>
 
-        <div className="max-w-screen-2xl mx-auto px-6 lg:px-12 py-20 lg:py-32 w-full">
+        <div className="max-w-screen-2xl mx-auto px-6 xs:px-4 lg:px-12 py-20 xs:py-16 lg:py-32 w-full">
           <div className="max-w-5xl mx-auto text-center">
             {/* Main Hook */}
-            <div className="mb-12">
+            <div className="mb-12 xs:mb-4">
               {/* Meme Image */}
-              <div className="mb-12 flex justify-center">
+              <div className="mb-12 xs:mb-4 flex justify-center">
                 <img
                   src={memeImage}
                   alt="개발자는 안된다고 말했다 밈"
-                  className="w-48 h-auto"
+                  className="w-48 xs:w-32 h-auto"
                 />
               </div>
 
-              <p className="text-gray-600 mb-12 text-[24px]">
+              <p className="text-gray-600 mb-12 xs:mb-4 text-[24px] xs:text-lg">
                 여기 유명한 밈이 있습니다.
               </p>
 
-              <h1 className="leading-tight text-black text-[32px] font-bold">
+              <h1 className="leading-tight text-black text-[24px] font-bold">
                 "개발자는 항상{" "}
                 <motion.span
                   initial={{ opacity: 0, y: 20 }}
@@ -78,19 +88,20 @@ export function HomePage() {
       </section>
 
       {/* Section 2 - Insight (Cause Analysis) */}
-      <section className="relative py-32 px-6 lg:px-12 bg-gray-50">
+      <section className="relative py-32 xs:py-20 px-6 xs:px-4 lg:px-12 bg-gray-50">
         <div className="max-w-screen-2xl mx-auto">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-20">
-              <h2 className="mb-12 text-[24px]">
+            <div className="text-center mb-20 xs:mb-12">
+              <h2 className="mb-12 xs:mb-8 text-[24px] xs:text-lg">
                 왜 개발자들은 늘 안 된다고만 할까요?
-                <br />그 이유는{" "}
+                <br />
                 <span className="text-blue-600">
                   클라이언트는 새로운 기능에 초점을
                 </span>
                 <br />
                 <span className="text-blue-600">
                   개발자는 안정성에 초점을
+                  <br />
                 </span>{" "}
                 두기 때문입니다.
               </h2>
@@ -100,11 +111,11 @@ export function HomePage() {
             <div className="flex justify-center items-center py-0">
               {/* Motion Graphic: One circle splits into three */}
               <div
-                className="relative w-full max-w-4xl h-[500px] flex items-center justify-center"
+                className="relative w-full max-w-4xl h-[500px] xs:h-[200px] flex items-center justify-center"
                 ref={circleRef}
               >
                 {/* Label - 클라이언트/개발자 */}
-                <motion.div className="absolute top-0 left-1/2 -translate-x-1/2 text-center">
+                <motion.div className="absolute -top-4 xs:-top-3 left-1/2 -translate-x-1/2 text-center">
                   <motion.div
                     animate={{
                       opacity: isExpanded ? 0 : 1,
@@ -115,8 +126,8 @@ export function HomePage() {
                       ease: "easeInOut",
                     }}
                   >
-                    <div className="px-5 py-2 rounded-full bg-gray-100 shadow-sm">
-                      <p className="text-gray-700 text-sm tracking-wide">
+                    <div className="px-5 xs:px-3 py-2 xs:py-1 rounded-full bg-gray-100 shadow-sm">
+                      <p className="text-gray-700 text-sm xs:text-[10px] tracking-wide">
                         클라이언트
                       </p>
                     </div>
@@ -133,8 +144,8 @@ export function HomePage() {
                     }}
                     className="absolute top-0 left-1/2 -translate-x-1/2 whitespace-nowrap"
                   >
-                    <div className="px-5 py-2 rounded-full bg-gray-900 shadow-lg">
-                      <p className="text-white text-sm tracking-wide">
+                    <div className="px-5 xs:px-3 py-2 xs:py-1 rounded-full bg-gray-900 shadow-lg">
+                      <p className="text-white text-sm xs:text-[10px] tracking-wide">
                         개발자
                       </p>
                     </div>
@@ -152,7 +163,7 @@ export function HomePage() {
                     duration: 0.6,
                     ease: "easeInOut",
                   }}
-                  className="absolute cursor-pointer -translate-y-16"
+                  className="absolute cursor-pointer -translate-y-16 xs:-translate-y-8"
                 >
                   <div className="relative">
                     {/* Quote below circle */}
@@ -165,15 +176,15 @@ export function HomePage() {
                         duration: 0.6,
                         ease: "easeInOut",
                       }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-6"
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-6 xs:mt-2"
                     >
-                      <p className="text-blue-600 whitespace-nowrap">
+                      <p className="text-blue-600 whitespace-nowrap xs:whitespace-normal xs:text-[10px] text-center">
                         "결제 기능을 추가하고 싶어요!"
                       </p>
                     </motion.div>
 
-                    <div className="w-32 h-32 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                      <span className="text-white">
+                    <div className="w-32 xs:w-20 h-32 xs:h-20 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-white xs:text-xs text-center px-1">
                         새로운 기능
                       </span>
                     </div>
@@ -186,7 +197,7 @@ export function HomePage() {
                 <motion.div
                   animate={{
                     x: isExpanded ? 0 : 0,
-                    y: isExpanded ? -100 : 0,
+                    y: isExpanded ? (isSmallScreen ? -25 : -100) : 0,
                     scale: isExpanded ? [0, 0.5, 1] : 0,
                     opacity: isExpanded ? [0, 0.7, 1] : 0,
                   }}
@@ -199,8 +210,8 @@ export function HomePage() {
                 >
                   {/* Circle */}
                   <div className="relative">
-                    <div className="w-24 h-24 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
-                      <span className="text-white text-sm">
+                    <div className="w-24 xs:w-14 h-24 xs:h-14 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-white text-sm xs:text-[10px]">
                         예외
                       </span>
                     </div>
@@ -213,10 +224,10 @@ export function HomePage() {
                         duration: 0.4,
                         delay: isExpanded ? 0.5 : 0,
                       }}
-                      className="absolute top-1/2 left-full ml-4 flex items-center gap-3"
+                      className="absolute top-1/2 left-full ml-4 xs:ml-1 flex items-center gap-3 xs:gap-1 xs:hidden"
                     >
-                      <div className="w-12 h-px bg-gray-400"></div>
-                      <p className="text-gray-700 text-sm whitespace-nowrap">
+                      <div className="w-12 xs:w-2 h-px bg-gray-400"></div>
+                      <p className="text-gray-700 text-sm xs:text-[8px] whitespace-nowrap xs:whitespace-normal xs:max-w-[80px]">
                         카드사 서버가 응답하지 않으면?
                       </p>
                     </motion.div>
@@ -226,8 +237,8 @@ export function HomePage() {
                 {/* Bottom Left: 변수 */}
                 <motion.div
                   animate={{
-                    x: isExpanded ? -90 : 0,
-                    y: isExpanded ? 50 : 0,
+                    x: isExpanded ? (isSmallScreen ? -32 : -90) : 0,
+                    y: isExpanded ? (isSmallScreen ? 30 : 50) : 0,
                     scale: isExpanded ? [0, 0.5, 1] : 0,
                     opacity: isExpanded ? [0, 0.7, 1] : 0,
                   }}
@@ -240,8 +251,8 @@ export function HomePage() {
                 >
                   {/* Circle */}
                   <div className="relative">
-                    <div className="w-24 h-24 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
-                      <span className="text-white text-sm">
+                    <div className="w-24 xs:w-14 h-24 xs:h-14 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-white text-sm xs:text-[10px]">
                         변수
                       </span>
                     </div>
@@ -254,12 +265,12 @@ export function HomePage() {
                         duration: 0.4,
                         delay: isExpanded ? 0.5 : 0,
                       }}
-                      className="absolute top-1/2 right-full mr-4 flex items-center gap-3"
+                      className="absolute top-1/2 right-full mr-4 xs:mr-1 flex items-center gap-3 xs:gap-1 xs:flex-row-reverse xs:hidden"
                     >
-                      <p className="text-gray-700 text-sm whitespace-nowrap text-right">
+                      <p className="text-gray-700 text-sm xs:text-[8px] whitespace-nowrap xs:whitespace-normal text-right xs:text-left xs:max-w-[80px]">
                         어떤 결제 방식을 지원하지?
                       </p>
-                      <div className="w-12 h-px bg-gray-400"></div>
+                      <div className="w-12 xs:w-2 h-px bg-gray-400"></div>
                     </motion.div>
                   </div>
                 </motion.div>
@@ -267,8 +278,8 @@ export function HomePage() {
                 {/* Bottom Right: 버그 */}
                 <motion.div
                   animate={{
-                    x: isExpanded ? 90 : 0,
-                    y: isExpanded ? 50 : 0,
+                    x: isExpanded ? (isSmallScreen ? 32 : 90) : 0,
+                    y: isExpanded ? (isSmallScreen ? 30 : 50) : 0,
                     scale: isExpanded ? [0, 0.5, 1] : 0,
                     opacity: isExpanded ? [0, 0.7, 1] : 0,
                   }}
@@ -281,8 +292,8 @@ export function HomePage() {
                 >
                   {/* Circle */}
                   <div className="relative">
-                    <div className="w-24 h-24 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
-                      <span className="text-white text-sm">
+                    <div className="w-24 xs:w-14 h-24 xs:h-14 bg-gray-700 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-white text-sm xs:text-[10px]">
                         버그
                       </span>
                     </div>
@@ -295,10 +306,10 @@ export function HomePage() {
                         duration: 0.4,
                         delay: isExpanded ? 0.5 : 0,
                       }}
-                      className="absolute top-1/2 left-full ml-4 flex items-center gap-3"
+                      className="absolute top-1/2 left-full ml-4 xs:ml-1 flex items-center gap-3 xs:gap-1 xs:hidden"
                     >
-                      <div className="w-12 h-px bg-gray-400"></div>
-                      <p className="text-gray-700 text-sm whitespace-nowrap">
+                      <div className="w-12 xs:w-2 h-px bg-gray-400"></div>
+                      <p className="text-gray-700 text-sm xs:text-[8px] whitespace-nowrap xs:whitespace-normal xs:max-w-[80px]">
                         모바일에서는 결제창이 안 뜨네?
                       </p>
                     </motion.div>
@@ -307,10 +318,30 @@ export function HomePage() {
               </div>
             </div>
 
+            {/* Example List for Mobile */}
+            <div className="mt-8 xs:mt-8 hidden xs:block">
+              <div className="space-y-3">
+                <h3 className="text-gray-900 text-lg font-semibold mb-4 text-center">
+                  예시 상황
+                </h3>
+                <div className="space-y-2 text-center">
+                  <p className="text-gray-700 text-sm">
+                    <span className="font-semibold">예외:</span> 카드사 서버가 응답하지 않으면?
+                  </p>
+                  <p className="text-gray-700 text-sm">
+                    <span className="font-semibold">변수:</span> 어떤 결제 방식을 지원하지?
+                  </p>
+                  <p className="text-gray-700 text-sm">
+                    <span className="font-semibold">버그:</span> 모바일에서는 결제창이 안 뜨네?
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Conclusion */}
-            <div className="-mt-12 text-center">
-              <div className="py-2 px-8">
-                <p className="text-gray-900 leading-relaxed text-[24px]">
+            <div className="-mt-12 xs:-mt-8 text-center">
+              <div className="py-2 xs:py-1 px-8 xs:px-4">
+                <p className="text-gray-900 text-[24px] xs:text-lg">
                   불확실성을 제거해야하기 때문에
                   <br />
                   대부분의 개발자들은 일단{" "}
@@ -326,7 +357,7 @@ export function HomePage() {
       </section>
 
       {/* Section 3 - Differentiation (My Position) + AI Development */}
-      <section className="relative py-32 px-6 lg:px-12 overflow-hidden">
+      <section className="relative py-32 xs:py-20 px-6 xs:px-4 lg:px-12 overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-white" />
         </div>
@@ -334,8 +365,8 @@ export function HomePage() {
         <div className="max-w-screen-2xl mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <div>
-              <div className="mb-20 text-[24px]">
-                <p className="text-[24px]">
+              <div className="mb-20 xs:mb-12">
+                <p className="text-[24px] xs:text-lg">
                   저는{" "}
                   <span className="text-blue-600">
                     바이브 코딩 개발자
@@ -423,8 +454,8 @@ export function HomePage() {
           <div className="max-w-4xl mx-auto text-center">
             <div>
               {/* Description */}
-              <div className="space-y-8 mb-16">
-                <p className="text-gray-300 text-[24px]">
+              <div className="space-y-8 xs:space-y-6 mb-16 xs:mb-12">
+                <p className="text-gray-300 text-[24px] xs:text-lg">
                   저는 클라이언트에게 안 된다는 말 대신
                   <br />
                   <motion.span
@@ -516,7 +547,7 @@ export function HomePage() {
                     </motion.div>
                   </div>
 
-                  <p className="text-gray-400 text-[24px]">
+                  <p className="text-gray-400 text-[24px] xs:text-lg">
                     이것이 <br />
                     제가 가진 가장 큰{" "}
                     <span className="text-white">경쟁력</span>
@@ -526,21 +557,21 @@ export function HomePage() {
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <Link to="/projects">
-                  <button className="group relative px-10 py-5 bg-white text-gray-900 overflow-hidden hover:bg-blue-600 hover:text-white transition-colors">
-                    <span className="relative z-10 flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 xs:gap-4">
+                <Link to="/projects" className="w-full xs:w-full sm:w-auto">
+                  <button className="group relative w-full xs:w-full sm:w-auto px-10 xs:px-6 py-5 xs:py-4 bg-white text-gray-900 overflow-hidden hover:bg-blue-600 hover:text-white transition-colors min-h-12 xs:min-h-14">
+                    <span className="relative z-10 flex items-center justify-center gap-3 xs:text-sm">
                       프로젝트 보기
                       <ArrowRight
-                        className="group-hover:translate-x-1 transition-transform"
+                        className="group-hover:translate-x-1 transition-transform xs:w-4 xs:h-4"
                         size={20}
                       />
                     </span>
                   </button>
                 </Link>
 
-                <Link to="/services">
-                  <button className="px-10 py-5 bg-transparent text-white border-2 border-white hover:bg-white hover:text-gray-900 transition-colors">
+                <Link to="/services" className="w-full xs:w-full sm:w-auto">
+                  <button className="w-full xs:w-full sm:w-auto px-10 xs:px-6 py-5 xs:py-4 bg-transparent text-white border-2 border-white hover:bg-white hover:text-gray-900 transition-colors min-h-12 xs:min-h-14 xs:text-sm">
                     상담 시작하기
                   </button>
                 </Link>

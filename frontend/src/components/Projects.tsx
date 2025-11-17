@@ -105,7 +105,7 @@ export function Projects() {
       : projects.filter((p) => p.category === selectedCategory);
 
   return (
-    <div className="py-24 px-6 bg-gray-50">
+    <div className="py-24 xs:py-16 px-6 xs:px-4 bg-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -123,12 +123,12 @@ export function Projects() {
         </motion.div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-4 xs:gap-3 mb-12 xs:mb-8">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 border-2 transition-all ${
+              className={`px-6 xs:px-4 py-2 xs:py-2.5 border-2 transition-all xs:text-sm min-h-12 xs:min-h-14 ${
                 selectedCategory === category
                   ? 'bg-black text-white border-black'
                   : 'border-black text-black hover:bg-blue-600 hover:text-white hover:border-blue-600'
@@ -140,7 +140,7 @@ export function Projects() {
         </div>
 
         {/* Projects Grid */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8 xs:gap-4">
           {filteredProjects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -150,7 +150,7 @@ export function Projects() {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
               onClick={() => setSelectedProject(project)}
-              className="group cursor-pointer bg-white overflow-hidden hover:shadow-xl transition-shadow"
+              className="group cursor-pointer bg-white overflow-hidden hover:shadow-xl transition-shadow xs:max-w-[90%] xs:mx-auto"
             >
               <div className="aspect-video overflow-hidden">
                 <img
@@ -159,22 +159,22 @@ export function Projects() {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="px-3 py-1 bg-blue-600 text-white text-xs">
+              <div className="p-6 xs:p-4">
+                <div className="flex items-center gap-2 xs:gap-1.5 mb-3 xs:mb-2">
+                  <span className="px-3 xs:px-2 py-1 xs:py-0.5 bg-blue-600 text-white text-xs xs:text-[10px]">
                     {project.category}
                   </span>
-                  <span className="text-sm text-gray-500">{project.period}</span>
+                  <span className="text-sm xs:text-xs text-gray-500">{project.period}</span>
                 </div>
-                <h3 className="mb-3 group-hover:text-blue-600 transition-colors">
+                <h3 className="mb-3 xs:mb-2 xs:text-base group-hover:text-blue-600 transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4">{project.summary}</p>
-                <div className="flex flex-wrap gap-2">
+                <p className="text-gray-600 text-sm xs:text-xs mb-4 xs:mb-3">{project.summary}</p>
+                <div className="flex flex-wrap gap-2 xs:gap-1.5">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-1 bg-gray-100 text-gray-700 text-xs"
+                      className="px-2 xs:px-1.5 py-1 xs:py-0.5 bg-gray-100 text-gray-700 text-xs xs:text-[10px]"
                     >
                       {tag}
                     </span>
@@ -195,63 +195,63 @@ export function Projects() {
               className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-6"
               onClick={() => setSelectedProject(null)}
             >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
-              >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white max-w-4xl w-full xs:w-[calc(100%-1rem)] max-h-[90vh] xs:max-h-[95vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
                 <div className="relative">
                   <img
                     src={selectedProject.thumbnail}
                     alt={selectedProject.title}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-64 xs:h-48 object-cover"
                   />
                   <button
                     onClick={() => setSelectedProject(null)}
-                    className="absolute top-4 right-4 w-10 h-10 bg-white text-black flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors"
+                    className="absolute top-4 xs:top-2 right-4 xs:right-2 w-10 xs:w-12 h-10 xs:h-12 bg-white text-black flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors min-h-12 xs:min-h-14"
                   >
-                    <X size={20} />
+                    <X size={20} className="xs:w-6 xs:h-6" />
                   </button>
                 </div>
 
-                <div className="p-8">
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="px-4 py-2 bg-blue-600 text-white">
+                <div className="p-8 xs:p-4">
+                  <div className="flex items-center gap-4 xs:gap-2 mb-6 xs:mb-4 flex-wrap">
+                    <span className="px-4 xs:px-3 py-2 xs:py-1.5 bg-blue-600 text-white xs:text-sm">
                       {selectedProject.category}
                     </span>
                     <div className="flex items-center gap-2 text-gray-600">
-                      <Calendar size={16} />
-                      <span className="text-sm">{selectedProject.period}</span>
+                      <Calendar size={16} className="xs:w-4 xs:h-4" />
+                      <span className="text-sm xs:text-xs">{selectedProject.period}</span>
                     </div>
                   </div>
 
-                  <h2 className="mb-4">{selectedProject.title}</h2>
+                  <h2 className="mb-4 xs:mb-3 xs:text-xl">{selectedProject.title}</h2>
                   
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap gap-2 xs:gap-1.5 mb-6 xs:mb-4">
                     {selectedProject.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 bg-gray-100 text-gray-700 flex items-center gap-1"
+                        className="px-3 xs:px-2 py-1 xs:py-0.5 bg-gray-100 text-gray-700 flex items-center gap-1 xs:text-xs"
                       >
-                        <Tag size={14} />
+                        <Tag size={14} className="xs:w-3 xs:h-3" />
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="space-y-6">
+                  <div className="space-y-6 xs:space-y-4">
                     <div>
-                      <h4 className="mb-3">프로젝트 개요</h4>
-                      <p className="text-gray-600">{selectedProject.overview}</p>
+                      <h4 className="mb-3 xs:mb-2 xs:text-base">프로젝트 개요</h4>
+                      <p className="text-gray-600 xs:text-sm">{selectedProject.overview}</p>
                     </div>
 
                     <div>
-                      <h4 className="mb-3">주요 문제 및 해결 과정</h4>
-                      <ul className="space-y-2">
+                      <h4 className="mb-3 xs:mb-2 xs:text-base">주요 문제 및 해결 과정</h4>
+                      <ul className="space-y-2 xs:space-y-1.5">
                         {selectedProject.challenges.map((challenge, i) => (
-                          <li key={i} className="text-gray-600 flex items-start gap-2">
+                          <li key={i} className="text-gray-600 flex items-start gap-2 xs:text-sm">
                             <span className="text-blue-600 mt-1">•</span>
                             <span>{challenge}</span>
                           </li>
@@ -260,10 +260,10 @@ export function Projects() {
                     </div>
 
                     <div>
-                      <h4 className="mb-3">배운 점</h4>
-                      <ul className="space-y-2">
+                      <h4 className="mb-3 xs:mb-2 xs:text-base">배운 점</h4>
+                      <ul className="space-y-2 xs:space-y-1.5">
                         {selectedProject.learnings.map((learning, i) => (
-                          <li key={i} className="text-gray-600 flex items-start gap-2">
+                          <li key={i} className="text-gray-600 flex items-start gap-2 xs:text-sm">
                             <span className="text-blue-600 mt-1">•</span>
                             <span>{learning}</span>
                           </li>
@@ -272,15 +272,15 @@ export function Projects() {
                     </div>
                   </div>
 
-                  <div className="flex gap-4 mt-8">
+                  <div className="flex gap-4 xs:gap-3 mt-8 xs:mt-6 xs:flex-col">
                     {selectedProject.githubUrl && (
                       <a
                         href={selectedProject.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-black text-white hover:bg-blue-600 transition-colors"
+                        className="flex items-center justify-center gap-2 px-6 xs:px-4 py-3 xs:py-3.5 bg-black text-white hover:bg-blue-600 transition-colors xs:text-sm min-h-12 xs:min-h-14"
                       >
-                        <Github size={20} />
+                        <Github size={20} className="xs:w-5 xs:h-5" />
                         GitHub
                       </a>
                     )}
@@ -289,9 +289,9 @@ export function Projects() {
                         href={selectedProject.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 border-2 border-black text-black hover:bg-black hover:text-white transition-colors"
+                        className="flex items-center justify-center gap-2 px-6 xs:px-4 py-3 xs:py-3.5 border-2 border-black text-black hover:bg-black hover:text-white transition-colors xs:text-sm min-h-12 xs:min-h-14"
                       >
-                        <ExternalLink size={20} />
+                        <ExternalLink size={20} className="xs:w-5 xs:h-5" />
                         Live Demo
                       </a>
                     )}

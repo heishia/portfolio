@@ -48,7 +48,7 @@ const values = [
 
 export function About() {
   return (
-    <div className="py-24 px-6 bg-white">
+    <div className="py-24 xs:py-16 px-6 xs:px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -68,7 +68,7 @@ export function About() {
         </motion.div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 xs:gap-4 mb-20 xs:mb-12">
           {skillCategories.map((category, index) => {
             const Icon = category.icon;
             return (
@@ -80,12 +80,12 @@ export function About() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group"
               >
-                <div className="border-2 border-black p-6 h-full hover:bg-black hover:text-white transition-all duration-300">
-                  <Icon className="mb-4 group-hover:text-blue-600" size={32} />
-                  <h3 className="mb-4">{category.title}</h3>
-                  <ul className="space-y-2">
+                <div className="border-2 border-black p-6 xs:p-4 h-full hover:bg-black hover:text-white transition-all duration-300">
+                  <Icon className="mb-4 xs:mb-3 group-hover:text-blue-600 xs:w-7 xs:h-7" size={32} />
+                  <h3 className="mb-4 xs:mb-3 xs:text-base">{category.title}</h3>
+                  <ul className="space-y-2 xs:space-y-1.5">
                     {category.skills.map((skill) => (
-                      <li key={skill} className="text-sm opacity-80">
+                      <li key={skill} className="text-sm xs:text-xs opacity-80">
                         • {skill}
                       </li>
                     ))}
@@ -103,8 +103,8 @@ export function About() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h3 className="text-center mb-12">개발 철학</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <h3 className="text-center mb-12 xs:mb-8 xs:text-xl">개발 철학</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 xs:gap-6">
             {values.map((value, index) => {
               const Icon = value.icon;
               return (
@@ -116,11 +116,11 @@ export function About() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="text-center"
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white mb-4">
-                    <Icon size={28} />
+                  <div className="inline-flex items-center justify-center w-16 xs:w-14 h-16 xs:h-14 bg-blue-600 text-white mb-4 xs:mb-3">
+                    <Icon size={28} className="xs:w-6 xs:h-6" />
                   </div>
-                  <h4 className="mb-3">{value.title}</h4>
-                  <p className="text-gray-600 text-sm">{value.description}</p>
+                  <h4 className="mb-3 xs:mb-2 xs:text-base">{value.title}</h4>
+                  <p className="text-gray-600 text-sm xs:text-xs">{value.description}</p>
                 </motion.div>
               );
             })}
@@ -133,20 +133,20 @@ export function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-20 bg-gray-50 p-8 md:p-12"
+          className="mt-20 xs:mt-12 bg-gray-50 p-8 xs:p-4 md:p-12"
         >
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 xs:gap-6">
             <div>
-              <h4 className="mb-4">현재 진행 중인 프로젝트</h4>
-              <ul className="space-y-2 text-gray-600">
+              <h4 className="mb-4 xs:mb-3 xs:text-base">현재 진행 중인 프로젝트</h4>
+              <ul className="space-y-2 xs:space-y-1.5 text-gray-600 xs:text-sm">
                 <li>• AI 기반 콘텐츠 생성 플랫폼</li>
                 <li>• 실시간 협업 도구 개발</li>
                 <li>• 자동화 솔루션 컨설팅</li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-4">함께하고 싶은 분야</h4>
-              <ul className="space-y-2 text-gray-600">
+              <h4 className="mb-4 xs:mb-3 xs:text-base">함께하고 싶은 분야</h4>
+              <ul className="space-y-2 xs:space-y-1.5 text-gray-600 xs:text-sm">
                 <li>• SaaS 제품 개발</li>
                 <li>• 스타트업 기술 파트너십</li>
                 <li>• 교육 플랫폼 구축</li>

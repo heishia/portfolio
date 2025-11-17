@@ -41,8 +41,8 @@ export function Navigation() {
             : 'bg-transparent'
         }`}
       >
-        <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
-          <div className="flex items-center justify-between h-20 lg:h-24">
+        <div className="max-w-screen-2xl mx-auto px-6 xs:px-4 lg:px-12">
+          <div className="flex items-center justify-between h-20 xs:h-16 lg:h-24">
             {/* Logo */}
             <Link to="/" className="relative group z-10">
               <motion.div
@@ -50,7 +50,7 @@ export function Navigation() {
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center gap-3"
               >
-                <span className="text-xl font-bold tracking-tight text-black">
+                <span className="text-xl xs:text-lg font-bold tracking-tight text-black">
                   DEV_PPOP
                 </span>
               </motion.div>
@@ -104,7 +104,7 @@ export function Navigation() {
             {/* Mobile Menu Button */}
             <motion.button
               whileTap={{ scale: 0.9 }}
-              className="lg:hidden p-2 text-black z-10"
+              className="lg:hidden p-3 text-black z-10 min-h-12 min-w-12 flex items-center justify-center"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -129,10 +129,10 @@ export function Navigation() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="absolute right-0 top-0 bottom-0 w-80 bg-white p-8 pt-28"
+              className="absolute right-0 top-0 bottom-0 w-80 xs:w-full bg-white p-8 xs:p-6 pt-28 xs:pt-24"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="space-y-2">
+              <div className="space-y-2 xs:space-y-1">
                 {menuItems.map((item, index) => {
                   const isActive = location.pathname === item.path || 
                     (item.path !== '/' && location.pathname.startsWith(item.path));
@@ -145,7 +145,7 @@ export function Navigation() {
                     >
                       <Link
                         to={item.path}
-                        className={`block py-4 px-6 text-lg transition-colors ${
+                        className={`block py-4 xs:py-5 px-6 xs:px-4 text-lg xs:text-base transition-colors min-h-12 xs:min-h-14 ${
                           isActive 
                             ? 'text-black bg-gray-50' 
                             : 'text-gray-700 hover:bg-gray-50'
@@ -160,11 +160,11 @@ export function Navigation() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: menuItems.length * 0.05 }}
-                  className="pt-4"
+                  className="pt-4 xs:pt-6"
                 >
                   <Link
                     to="/services"
-                    className="block w-full py-4 px-6 text-center bg-black text-white font-medium"
+                    className="block w-full py-4 xs:py-5 px-6 xs:px-4 text-center xs:text-base bg-black text-white font-medium min-h-12 xs:min-h-14 flex items-center justify-center"
                   >
                     문의하기
                   </Link>

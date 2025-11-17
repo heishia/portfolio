@@ -56,117 +56,200 @@ export function Footer() {
         }}
       />
 
-      <div className="relative max-w-screen-2xl mx-auto px-6 lg:px-12">
+      <div className="relative max-w-screen-2xl mx-auto px-4 md:px-6 lg:px-12">
         {/* Main Footer */}
-        <div className="py-16 lg:py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <Link to="/" className="inline-block group mb-6">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl font-bold">DEV_PPOP</span>
-              </div>
-            </Link>
-            <p className="text-gray-400 text-lg leading-relaxed mb-6 max-w-md">
-              무엇이든지 구현해내는 풀스택 개발자.
-              <br />
-              Do not say no
-            </p>
-            <div className="flex items-center gap-4">
-              {socials.map((social) => {
-                const Icon = social.icon;
-                const isEmail = social.label === 'Email';
-                
-                if (isEmail) {
+        <div className="py-4 md:py-12 lg:py-20">
+          {/* Mobile Layout */}
+          <div className="md:hidden space-y-4">
+            {/* Brand and Socials in one row */}
+            <div className="flex items-center justify-between">
+              <Link to="/" className="group">
+                <span className="text-base font-bold">DEV_PPOP</span>
+              </Link>
+              <div className="flex items-center gap-2">
+                {socials.map((social) => {
+                  const Icon = social.icon;
+                  const isEmail = social.label === 'Email';
+                  
+                  if (isEmail) {
+                    return (
+                      <motion.button
+                        key={social.label}
+                        onClick={handleEmailClick}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-7 h-7 bg-white/10 hover:bg-blue-600 flex items-center justify-center transition-all"
+                        aria-label={social.label}
+                      >
+                        <Icon size={14} />
+                      </motion.button>
+                    );
+                  }
+                  
                   return (
-                    <motion.button
+                    <motion.a
                       key={social.label}
-                      onClick={handleEmailClick}
+                      href={social.href}
+                      target={social.href.startsWith('http') ? '_blank' : undefined}
+                      rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-7 h-7 bg-white/10 hover:bg-blue-600 flex items-center justify-center transition-all"
+                      aria-label={social.label}
+                    >
+                      <Icon size={14} />
+                    </motion.a>
+                  );
+                })}
+              </div>
+            </div>
+            
+            {/* Contact Info - Compact */}
+            <div className="flex flex-col gap-2 text-xs text-gray-400">
+              <a
+                href="mailto:bluejin1130@gmail.com"
+                className="hover:text-white transition-colors"
+                onClick={handleEmailClick}
+              >
+                bluejin1130@gmail.com
+              </a>
+              <a
+                href="tel:+821058034771"
+                className="hover:text-white transition-colors"
+              >
+                010-5803-4771
+              </a>
+            </div>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+            {/* Brand */}
+            <div className="lg:col-span-2">
+              <Link to="/" className="inline-block group mb-6">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl font-bold">DEV_PPOP</span>
+                </div>
+              </Link>
+              <p className="text-gray-400 text-lg leading-relaxed mb-6 max-w-md">
+                무엇이든지 구현해내는 풀스택 개발자.
+                <br />
+                Do not say no
+              </p>
+              <div className="flex items-center gap-4">
+                {socials.map((social) => {
+                  const Icon = social.icon;
+                  const isEmail = social.label === 'Email';
+                  
+                  if (isEmail) {
+                    return (
+                      <motion.button
+                        key={social.label}
+                        onClick={handleEmailClick}
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-12 h-12 bg-white/10 hover:bg-blue-600 flex items-center justify-center transition-all duration-300"
+                        aria-label={social.label}
+                      >
+                        <Icon size={20} />
+                      </motion.button>
+                    );
+                  }
+                  
+                  return (
+                    <motion.a
+                      key={social.label}
+                      href={social.href}
+                      target={social.href.startsWith('http') ? '_blank' : undefined}
+                      rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                       className="w-12 h-12 bg-white/10 hover:bg-blue-600 flex items-center justify-center transition-all duration-300"
                       aria-label={social.label}
                     >
                       <Icon size={20} />
-                    </motion.button>
+                    </motion.a>
                   );
-                }
-                
-                return (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target={social.href.startsWith('http') ? '_blank' : undefined}
-                    rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-12 h-12 bg-white/10 hover:bg-blue-600 flex items-center justify-center transition-all duration-300"
-                    aria-label={social.label}
-                  >
-                    <Icon size={20} />
-                  </motion.a>
-                );
-              })}
+                })}
+              </div>
             </div>
-          </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6">빠른 링크</h4>
-            <ul className="space-y-4">
-              {links.map((link) => (
-                <li key={link.to}>
-                  <Link
-                    to={link.to}
-                    className="group inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-lg font-semibold mb-6">빠른 링크</h4>
+              <ul className="space-y-4">
+                {links.map((link) => (
+                  <li key={link.to}>
+                    <Link
+                      to={link.to}
+                      className="group inline-flex items-center gap-2 text-base text-gray-400 hover:text-white transition-colors"
+                    >
+                      <span>{link.label}</span>
+                      <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="text-lg font-semibold mb-6">연락처</h4>
+              <ul className="space-y-4 text-base text-gray-400">
+                <li>
+                  <a
+                    href="mailto:bluejin1130@gmail.com"
+                    className="hover:text-white transition-colors"
+                    onClick={handleEmailClick}
                   >
-                    <span>{link.label}</span>
-                    <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                    bluejin1130@gmail.com
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="tel:+821058034771"
+                    className="hover:text-white transition-colors"
+                  >
+                    010-5803-4771
+                  </a>
+                </li>
+                <li className="pt-4">
+                  <Link
+                    to="/services"
+                    className="inline-block px-6 py-3 bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all duration-300"
+                  >
+                    프로젝트 문의
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6">연락처</h4>
-            <ul className="space-y-4 text-gray-400">
-              <li>
-                <a
-                  href="mailto:bluejin1130@gmail.com"
-                  className="hover:text-white transition-colors"
-                  onClick={handleEmailClick}
-                >
-                  bluejin1130@gmail.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="tel:+821058034771"
-                  className="hover:text-white transition-colors"
-                >
-                  010-5803-4771
-                </a>
-              </li>
-              <li className="pt-4">
-                <Link
-                  to="/services"
-                  className="inline-block px-6 py-3 bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all duration-300"
-                >
-                  프로젝트 문의
-                </Link>
-              </li>
-            </ul>
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
-            <p>© {currentYear} Developer Portfolio. All rights reserved.</p>
-            <div className="flex items-center gap-6">
-              <a href="#" className="hover:text-white transition-colors">개인정보처리방침</a>
-              <a href="#" className="hover:text-white transition-colors">이용약관</a>
+        <div className="py-2 md:py-8 border-t border-white/10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-1.5 md:gap-4 text-gray-400">
+            <p 
+              className="md:text-sm leading-tight"
+              style={{ fontSize: '8px' }}
+            >
+              © {currentYear} Developer Portfolio. All rights reserved.
+            </p>
+            <div className="flex items-center gap-2 md:gap-6">
+              <a 
+                href="#" 
+                className="md:text-sm hover:text-white transition-colors whitespace-nowrap leading-tight"
+                style={{ fontSize: '8px' }}
+              >
+                개인정보처리방침
+              </a>
+              <a 
+                href="#" 
+                className="md:text-sm hover:text-white transition-colors whitespace-nowrap leading-tight"
+                style={{ fontSize: '8px' }}
+              >
+                이용약관
+              </a>
             </div>
           </div>
         </div>

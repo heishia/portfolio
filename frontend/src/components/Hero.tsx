@@ -34,15 +34,15 @@ export function Hero({ setActiveSection }: HeroProps) {
         ))}
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 xs:px-4 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="mb-6">
+          <div className="mb-6 xs:mb-4">
             <motion.span
-              className="inline-block px-4 py-2 bg-blue-600 text-white text-sm tracking-wider"
+              className="inline-block px-4 xs:px-3 py-2 xs:py-1.5 bg-blue-600 text-white text-sm xs:text-xs tracking-wider"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
@@ -51,16 +51,17 @@ export function Hero({ setActiveSection }: HeroProps) {
             </motion.span>
           </div>
 
-          <h1 className="mb-6">
+          <h1 className="mb-6 xs:mb-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
+              className="xs:text-2xl"
             >
               문제를 해결하는
             </motion.div>
             <motion.div
-              className="text-blue-600"
+              className="text-blue-600 xs:text-2xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
@@ -70,28 +71,29 @@ export function Hero({ setActiveSection }: HeroProps) {
           </h1>
 
           <motion.p
-            className="text-gray-600 mb-12 max-w-2xl mx-auto"
+            className="text-gray-600 mb-12 xs:mb-8 max-w-2xl mx-auto xs:text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
             React, Next.js, Python, FastAPI를 활용한 웹/앱 개발부터
-            <br />
+            <br className="xs:hidden" />
+            <span className="xs:block xs:mt-1" />
             서비스 기획, 배포, 운영까지 전 과정을 함께합니다.
           </motion.p>
 
           <motion.div
-            className="flex flex-wrap items-center justify-center gap-4"
+            className="flex flex-wrap items-center justify-center gap-4 xs:gap-3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
           >
             <button
               onClick={scrollToAbout}
-              className="px-8 py-4 bg-black text-white hover:bg-blue-600 transition-colors flex items-center gap-2"
+              className="px-8 xs:px-6 py-4 xs:py-3.5 bg-black text-white hover:bg-blue-600 transition-colors flex items-center gap-2 xs:text-sm min-h-12 xs:min-h-14"
             >
               더 알아보기
-              <ArrowDown size={18} />
+              <ArrowDown size={18} className="xs:w-4 xs:h-4" />
             </button>
             
             <button
@@ -99,7 +101,7 @@ export function Hero({ setActiveSection }: HeroProps) {
                 const element = document.getElementById('services');
                 if (element) element.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-8 py-4 border-2 border-black text-black hover:bg-black hover:text-white transition-colors"
+              className="px-8 xs:px-6 py-4 xs:py-3.5 border-2 border-black text-black hover:bg-black hover:text-white transition-colors xs:text-sm min-h-12 xs:min-h-14"
             >
               프로젝트 의뢰하기
             </button>
@@ -107,7 +109,7 @@ export function Hero({ setActiveSection }: HeroProps) {
 
           {/* Social Links */}
           <motion.div
-            className="flex items-center justify-center gap-6 mt-12"
+            className="flex items-center justify-center gap-6 xs:gap-5 mt-12 xs:mt-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
@@ -116,23 +118,23 @@ export function Hero({ setActiveSection }: HeroProps) {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              className="text-gray-600 hover:text-blue-600 transition-colors p-2 xs:p-1.5 min-w-10 xs:min-w-12 min-h-10 xs:min-h-12 flex items-center justify-center"
             >
-              <Github size={24} />
+              <Github size={24} className="xs:w-5 xs:h-5" />
             </a>
             <a
               href="https://notion.so"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              className="text-gray-600 hover:text-blue-600 transition-colors p-2 xs:p-1.5 min-w-10 xs:min-w-12 min-h-10 xs:min-h-12 flex items-center justify-center"
             >
-              <FileText size={24} />
+              <FileText size={24} className="xs:w-5 xs:h-5" />
             </a>
             <a
               href="mailto:contact@example.com"
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              className="text-gray-600 hover:text-blue-600 transition-colors p-2 xs:p-1.5 min-w-10 xs:min-w-12 min-h-10 xs:min-h-12 flex items-center justify-center"
             >
-              <Mail size={24} />
+              <Mail size={24} className="xs:w-5 xs:h-5" />
             </a>
           </motion.div>
         </motion.div>
@@ -140,12 +142,12 @@ export function Hero({ setActiveSection }: HeroProps) {
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-8 xs:bottom-6 left-1/2 -translate-x-1/2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 10, 0] }}
         transition={{ delay: 1.2, y: { duration: 1.5, repeat: Infinity } }}
       >
-        <ArrowDown className="text-gray-400" size={32} />
+        <ArrowDown className="text-gray-400 xs:w-6 xs:h-6" size={32} />
       </motion.div>
     </div>
   );

@@ -171,22 +171,22 @@ export function AboutPage() {
               {/* Navigation Buttons - Minimalist Style */}
               <button
                 onClick={() => handleProjectChange('prev')}
-                className="absolute left-0 lg:left-4 z-10 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors duration-300"
+                className="absolute left-0 lg:left-4 z-10 w-10 h-10 lg:w-12 lg:h-12 xs:w-8 xs:h-8 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors duration-300"
                 aria-label="Previous project"
               >
-                <ChevronLeft size={32} />
+                <ChevronLeft size={32} className="xs:w-6 xs:h-6" />
               </button>
 
               <button
                 onClick={() => handleProjectChange('next')}
-                className="absolute right-0 lg:right-4 z-10 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors duration-300"
+                className="absolute right-0 lg:right-4 z-10 w-10 h-10 lg:w-12 lg:h-12 xs:w-8 xs:h-8 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors duration-300"
                 aria-label="Next project"
               >
-                <ChevronRight size={32} />
+                <ChevronRight size={32} className="xs:w-6 xs:h-6" />
               </button>
 
               {/* Carousel Container */}
-              <div className="flex items-center justify-center gap-6 lg:gap-10 w-full max-w-5xl mx-auto py-12">
+              <div className="flex items-center justify-center gap-6 lg:gap-10 xs:gap-3 w-full max-w-5xl mx-auto py-12 xs:py-8">
                 {featuredProjects.length > 0 && [-1, 0, 1].map((offset) => {
                   const index = (currentProjectIndex + offset + featuredProjects.length) % featuredProjects.length;
                   const project = featuredProjects[index];
@@ -215,13 +215,13 @@ export function AboutPage() {
                         }
                       }}
                       className={`relative cursor-pointer group ${
-                        isCenter ? 'w-44 h-44 lg:w-56 lg:h-56' : 'w-28 h-28 lg:w-36 lg:h-36'
+                        isCenter ? 'w-44 h-44 lg:w-56 lg:h-56 xs:w-32 xs:h-32' : 'w-28 h-28 lg:w-36 lg:h-36 xs:w-20 xs:h-20'
                       }`}
                     >
                       {/* App Icon - iOS Style */}
                       <div className="relative w-full h-full overflow-hidden rounded-[22.5%] shadow-lg">
                         {project.app_icon ? (
-                          <div className="w-full h-full bg-white flex items-center justify-center p-4">
+                          <div className="w-full h-full bg-white flex items-center justify-center p-4 xs:p-2">
                             <img
                               src={project.app_icon}
                               alt={project.title}
@@ -258,15 +258,15 @@ export function AboutPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="text-center mt-10"
+                className="text-center mt-10 xs:mt-6"
               >
-                <h3 className="text-2xl text-gray-900">{featuredProjects[currentProjectIndex].title}</h3>
+                <h3 className="text-2xl xs:text-lg text-gray-900">{featuredProjects[currentProjectIndex].title}</h3>
               </motion.div>
             )}
 
             {/* Dots Indicator - Equal Size */}
             {featuredProjects.length > 0 && (
-              <div className="flex items-center justify-center gap-2 mt-10">
+              <div className="flex items-center justify-center gap-2 mt-10 xs:mt-6">
                 {featuredProjects.map((_, index) => (
                   <button
                     key={index}
