@@ -1,7 +1,8 @@
+# 모든 검색로봇에 대해 수집 허용
 User-agent: *
 Allow: /
 
-# 네이버 검색 로봇
+# 네이버 검색 로봇 (Yeti)
 User-agent: Yeti
 Allow: /
 
@@ -9,6 +10,6 @@ Allow: /
 User-agent: Googlebot
 Allow: /
 
-# 사이트맵
+# 사이트맵 위치
 Sitemap: https://www.kimppop.site/sitemap.xml
 
