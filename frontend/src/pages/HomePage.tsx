@@ -65,7 +65,7 @@ export function HomePage() {
                 여기 유명한 밈이 있습니다.
               </p>
 
-              <h1 className="leading-tight text-black text-[24px] font-bold">
+              <h1 className="leading-tight text-black text-2xl lg:text-3xl font-bold">
                 "개발자는 항상{" "}
                 <motion.span
                   initial={{ opacity: 0, y: 20 }}
