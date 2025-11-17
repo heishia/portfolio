@@ -40,6 +40,21 @@ def escape_xml(text):
             .replace("'", "&apos;"))
 
 
+def clean_description(text):
+    """RSS description을 위한 텍스트 정리 (HTML 태그 제거)"""
+    if not text:
+        return ""
+    import re
+    # HTML 태그 제거
+    text = re.sub(r'<[^>]+>', '', text)
+    # 여러 공백을 하나로
+    text = re.sub(r'\s+', ' ', text)
+    # 300자로 제한
+    if len(text) > 300:
+        text = text[:300] + "..."
+    return text.strip()
+
+
 def generate_rss():
     """RSS XML 생성"""
     now = datetime.now()
@@ -76,29 +91,29 @@ def generate_rss():
             pub_date = project.updated_at if project.updated_at else project.created_at
             pub_date_str = format_rfc822_date(pub_date) if pub_date else build_date
             
-            # 설명 생성
-            description = escape_xml(project.description)
+            # 설명 생성 (HTML 태그 없이 순수 텍스트)
+            description = project.description
             if project.subtitle:
-                description = f"{escape_xml(project.subtitle)} - {description}"
+                description = f"{project.subtitle} - {description}"
+            
+            # 추가 정보 구성
+            additional_info = []
             
             # 태그 추가
-            tags_text = ""
             if project.tags:
-                tags = ", ".join(project.tags[:5])  # 최대 5개 태그
-                tags_text = f"<p>태그: {escape_xml(tags)}</p>"
+                tags = ", ".join(project.tags[:5])
+                additional_info.append(f"태그: {tags}")
             
             # 기술 스택 추가
-            tech_text = ""
             if project.technologies:
                 tech_list = []
                 for tech in project.technologies:
                     if isinstance(tech, dict) and 'items' in tech:
-                        tech_list.extend(tech['items'][:3])  # 카테고리당 최대 3개
+                        tech_list.extend(tech['items'][:3])
                 if tech_list:
-                    tech_text = f"<p>기술 스택: {escape_xml(', '.join(tech_list[:10]))}</p>"
+                    additional_info.append(f"기술 스택: {', '.join(tech_list[:10])}")
             
             # 프로젝트 타입
-            project_type_text = ""
             type_labels = {
                 'web': '웹',
                 'mobile': '모바일',
@@ -108,16 +123,23 @@ def generate_rss():
                 'frontend': '프론트엔드'
             }
             type_label = type_labels.get(project.project_type, project.project_type)
-            project_type_text = f"<p>프로젝트 유형: {escape_xml(type_label)}</p>"
+            additional_info.append(f"프로젝트 유형: {type_label}")
             
-            # 전체 설명 조합
-            full_description = f"{description}{tags_text}{tech_text}{project_type_text}"
+            # 전체 설명 조합 (HTML 없이)
+            if additional_info:
+                full_description = f"{description}\n\n{chr(10).join(additional_info)}"
+            else:
+                full_description = description
+            
+            # description 정리 (HTML 태그 제거, 길이 제한)
+            full_description = clean_description(full_description)
+            full_description = escape_xml(full_description)
             
             rss_content += f"""    <item>
       <title>{escape_xml(project.title)}</title>
       <link>{project_url}</link>
       <guid isPermaLink="true">{project_url}</guid>
-      <description><![CDATA[{full_description}]]></description>
+      <description>{full_description}</description>
       <pubDate>{pub_date_str}</pubDate>
       <category>{escape_xml(type_label)}</category>
     </item>
