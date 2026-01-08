@@ -6,7 +6,7 @@ const getApiBaseUrl = () => {
   }
   // 프로덕션 환경 체크 (환경 변수가 없을 때만)
   if (typeof window !== 'undefined' && (window.location.hostname === 'www.kimppop.site' || window.location.hostname === 'kimppop.site')) {
-    return 'https://web-production-c1e6f.up.railway.app';
+    return 'https://api.kimppop.site';
   }
   // 기본값 (로컬 개발)
   return 'http://localhost:8000';
