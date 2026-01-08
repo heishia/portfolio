@@ -1,10 +1,32 @@
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Any, Dict
 from uuid import UUID, uuid4
 from core.exceptions import NotFoundException
 from core.models import Project
 from projects.schemas import ProjectListResponse, ProjectDetailResponse, ProjectCreate
 from core.logger import logger
+
+
+def _normalize_technologies(technologies: Any) -> Any:
+    if not technologies:
+        return []
+    if isinstance(technologies, list):
+        if all(isinstance(t, dict) and "category" in t and "items" in t for t in technologies):
+            return technologies
+        if all(isinstance(t, dict) and "name" in t and "category" in t for t in technologies):
+            grouped: Dict[str, List[str]] = {}
+            for t in technologies:
+                category = t.get("category") or "기술"
+                name = t.get("name")
+                if not name:
+                    continue
+                if category not in grouped:
+                    grouped[category] = []
+                grouped[category].append(name)
+            return [{"category": c, "items": items} for c, items in grouped.items()]
+        if all(isinstance(t, str) for t in technologies):
+            return [{"category": "기술 스택", "items": technologies}]
+    return technologies
 
 
 def get_projects(
@@ -18,13 +40,14 @@ def get_projects(
     
     projects = query.order_by(Project.priority.desc(), Project.created_at.desc()).all()
     
-    # Convert UUID to string if needed
     result = []
     for project in projects:
         project_dict = {
             k: str(v) if k == 'id' and isinstance(v, UUID) else v
             for k, v in project.__dict__.items() if not k.startswith('_')
         }
+        if "technologies" in project_dict:
+            project_dict["technologies"] = _normalize_technologies(project_dict["technologies"])
         result.append(ProjectListResponse.model_validate(project_dict))
     
     return result
@@ -39,11 +62,12 @@ def get_project_by_id(
     if not project:
         raise NotFoundException("Project", project_id)
     
-    # Convert UUID to string if needed
     project_dict = {
         k: str(v) if k == 'id' and isinstance(v, UUID) else v
         for k, v in project.__dict__.items() if not k.startswith('_')
     }
+    if "technologies" in project_dict:
+        project_dict["technologies"] = _normalize_technologies(project_dict["technologies"])
     return ProjectDetailResponse.model_validate(project_dict)
 
 
@@ -78,6 +102,8 @@ def update_project_screenshots(
         k: str(v) if k == 'id' and isinstance(v, UUID) else v
         for k, v in project.__dict__.items() if not k.startswith('_')
     }
+    if "technologies" in project_dict:
+        project_dict["technologies"] = _normalize_technologies(project_dict["technologies"])
     return ProjectDetailResponse.model_validate(project_dict)
 
 
@@ -105,6 +131,8 @@ def get_project_by_priority(
         k: str(v) if k == 'id' and isinstance(v, UUID) else v
         for k, v in project.__dict__.items() if not k.startswith('_')
     }
+    if "technologies" in project_dict:
+        project_dict["technologies"] = _normalize_technologies(project_dict["technologies"])
     return ProjectDetailResponse.model_validate(project_dict)
 
 

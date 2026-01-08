@@ -51,7 +51,7 @@ export function Navigation() {
                 className="flex items-center gap-3"
               >
                 <span className="text-xl xs:text-lg font-bold tracking-tight text-black">
-                  DEV_PPOP
+                  ppop portfolio
                 </span>
               </motion.div>
             </Link>
