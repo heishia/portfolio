@@ -17,9 +17,9 @@ class Feature(BaseModel):
 
 class CodeSnippet(BaseModel):
     title: str
-    description: str
-    language: str
-    file_path: str
+    description: Optional[str] = None
+    language: Optional[str] = None
+    file_path: Optional[str] = None
     code: str
 
 
